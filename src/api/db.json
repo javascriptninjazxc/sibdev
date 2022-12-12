@@ -1,0 +1,9 @@
+{
+    "users": [
+        {
+            "login": "admin",
+            "password": "admin",
+            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwicGFzc3dvcmQiOiJhZG1pbiJ9.ANTVhtgdSP1ukR6ml7zEOCm4CgsQ98f-8wjlqNiwlGU"
+        }
+    ]
+}

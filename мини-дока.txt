@@ -1,0 +1,6 @@
+1. Модальные окна используются на основе наименованных slot'ов. (Vuex не используется к сожалению)
+2. LocalStorage сохраненных заметок хранится в компонентах Vuex
+3. Используется json-server, дата в api/db.json
+4. Используется vue-svg-loader ( Для импорта svg в качестве компонентов )
+5. Запись заметок в localStorage: fav-{userLogin};
+6. Axios: api/axios.js, рядом и сопровождающие сервисы: AuthService, YouTubeService;

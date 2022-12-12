@@ -1,18 +1,49 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="home container">
+    <search-form
+      :isTooltipVisible="isTooltipVisible"
+      @tooltip-close="isTooltipVisible = false"
+      @modal-open="setVisibleModal($event)"
+    />
+
+    <add-favourite-modal
+      :reserveName="addFavouriteModal.props"
+      @success="(addFavouriteModal = null), (isTooltipVisible = true)"
+      @close-modal="addFavouriteModal = null"
+      v-if="addFavouriteModal?.visible === true"
+    />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import AddFavouriteModal from "@/components/Modals/Favourites/AddFavourite.vue";
+
+import SearchForm from "@/components/General/SearchForm.vue";
 
 export default {
-  name: 'HomeView',
+  name: "HomeView",
   components: {
-    HelloWorld
+    SearchForm,
+    AddFavouriteModal,
+  },
+  data() {
+    return {
+      addFavouriteModal: {
+        visible: false,
+        props: false,
+      },
+      isTooltipVisible: false,
+    };
+  },
+  methods: {
+    setVisibleModal(favourite) {
+      this.addFavouriteModal = {
+        visible: true,
+        props: favourite,
+      };
+    },
   }
-}
+};
 </script>
+
+<style lang="scss" scoped></style>

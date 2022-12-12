@@ -1,4 +1,5 @@
 import Vue from 'vue'
+
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
@@ -8,16 +9,28 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    meta: {
+      auth: true
+    },
+    props: true
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: '/login',
+    name: 'login',
+    meta: {
+      layout: "empty-layout"
+    },
+    component: () => import(/* webpackChunkName: "login" */ '../views/LoginView.vue')
+  },
+  {
+    path: '/favourites',
+    name: 'favourites',
+    meta: {
+      auth: true
+    },
+    component: () => import(/* webpackChunkName: "favourites" */ '../views/FavouritesView.vue')
+  },
 ]
 
 const router = new VueRouter({
@@ -25,5 +38,16 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+// router.beforeEach((to, from, next) => {
+//   const loggedIn = localStorage.getItem('jwt');
+//   const requireAuth = to.matched.some(route => route.meta.auth);
+
+//   if (requireAuth && !loggedIn) {
+//     next('/login');
+//   } else {
+//     next();
+//   }
+// })
 
 export default router

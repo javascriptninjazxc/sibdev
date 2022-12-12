@@ -1,32 +1,45 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <component :is="layout" />
   </div>
 </template>
 
+<script>
+import { mapState } from "vuex";
+export default {
+  computed: {
+    ...mapState({ user: (state) => state.userModule.user }),
+    layout() {
+      return this.$route.meta.layout || "default-layout";
+    },
+  },
+  created() {
+    this.storageCheckUser();
+  },
+  methods: {
+    storageCheckUser() {
+      const token = localStorage.getItem("jwt");
+      if (token !== undefined && this.user === null) {
+        this.$store.dispatch("getAccount", token).then(r => {
+          if(r.status === 200) {
+            this.storageCheckFavourites();
+          }
+        });
+      }
+    },
+    storageCheckFavourites() {
+      if (localStorage.getItem(`fav-${this.user.login}`) !== null &&this.user !== null) {
+        this.$store.commit(
+          "setFavourites",
+          JSON.parse(localStorage.getItem(`fav-${this.user.login}`))
+        );
+      }
+    },
+  },
+};
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+@import "@/assets/scss/reset.css";
+@import "@/assets/scss/main.scss";
 </style>
